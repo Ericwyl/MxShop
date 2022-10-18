@@ -20,7 +20,7 @@ class ShoppingCart(models.Model):
         verbose_name = "购物车"
         verbose_name_plural = verbose_name
         # unique_together:联合约束，在这个表中，每一行的user,goods字段必须唯一，不能重复
-        unique_together = {"user", "goods"}
+        unique_together = ("user", "goods")
 
     def __str__(self):
         return "%s (%d)".format(self.goods.name, self.nums)
@@ -60,7 +60,7 @@ class OrderInfo(models.Model):
     #用户信息
     address = models.CharField("收货地址", max_length=100, default="")
     signer_name = models.CharField("签收人", max_length=20, default="")
-    singer_mobile = models.IntegerField("联系电话", max_length=11)
+    singer_mobile = models.CharField("联系电话", max_length=11)
 
     add_time = models.DateTimeField("添加时间", default=datetime.now)
 

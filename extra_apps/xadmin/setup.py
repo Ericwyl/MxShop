@@ -5,15 +5,15 @@ from setuptools import setup
 # version = ".".join([str(v) for v in version_tuple])
 
 setup(
-    name='xadmin',
-    version='2.0.1',
-    description='Drop-in replacement of Django admin comes with lots of goodies, fully extensible with plugin support, pretty UI based on Twitter Bootstrap.',
-    long_description=open('README.rst', encoding='utf-8').read(),
-    author='sshwsfc',
-    author_email='sshwsfc@gmail.com',
+    name='xadmin-django',
+    version='3.0.2',
+    description='Based on xadmin.Drop-in replacement of Django admin comes with lots of goodies, fully extensible with plugin support, pretty UI based on Twitter Bootstrap.',
+    long_description='Based on xadmin.Drop-in replacement of Django admin comes with lots of goodies, fully extensible with plugin support, pretty UI based on Twitter Bootstrap.',
+    author='ldc',
+    author_email='1257309054@qq.com',
     license=open('LICENSE', encoding='utf-8').read(),
     url='http://www.xadmin.io',
-    download_url='http://github.com/sshwsfc/django-xadmin/archive/master.zip',
+    download_url='http://github.com/liangdongchang/django-xadmin/master.zip',
     packages=['xadmin', 'xadmin.migrations', 'xadmin.plugins', 'xadmin.templatetags', 'xadmin.views'],
     include_package_data=True,
     install_requires=[

@@ -6,7 +6,7 @@ from django.urls.base import NoReverseMatch
 from django.db import models
 from django.http import HttpResponseRedirect
 from django.template.response import SimpleTemplateResponse, TemplateResponse
-from django.utils import six
+# from django.utils import six
 from django.utils.encoding import force_text, smart_text
 from django.utils.html import escape, conditional_escape
 from django.utils.safestring import mark_safe
@@ -16,6 +16,12 @@ from django.utils.translation import ugettext as _
 from xadmin.util import lookup_field, display_for_field, label_for_field, boolean_icon
 
 from .base import ModelAdminView, filter_hook, inclusion_tag, csrf_protect_m
+
+import six
+try:
+    from django.db.models.fields import FieldDoesNotExist
+except:
+    from django.core.exceptions import FieldDoesNotExist
 
 # List settings
 ALL_VAR = 'all'
@@ -222,7 +228,7 @@ class ListAdminView(ModelAdminView):
                 for field_name in self.list_display:
                     try:
                         field = self.opts.get_field(field_name)
-                    except models.FieldDoesNotExist:
+                    except :
                         pass
                     else:
                         if isinstance(field.remote_field, models.ManyToOneRel):
@@ -259,7 +265,7 @@ class ListAdminView(ModelAdminView):
         try:
             field = self.opts.get_field(field_name)
             return field.name
-        except models.FieldDoesNotExist:
+        except FieldDoesNotExist:
             # See whether field_name is a name of a non-field
             # that allows sorting.
             if callable(field_name):

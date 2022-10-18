@@ -1,11 +1,12 @@
 import io
 import datetime
 import sys
+import six
 from future.utils import iteritems
 
 from django.http import HttpResponse
 from django.template import loader
-from django.utils import six
+# from django.utils import six
 from django.utils.encoding import force_text, smart_text
 from django.utils.html import escape
 from django.utils.translation import ugettext as _
