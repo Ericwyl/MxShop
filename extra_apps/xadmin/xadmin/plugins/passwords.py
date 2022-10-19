@@ -77,12 +77,25 @@ class ResetPasswordComfirmView(BaseAdminView):
 
     def do_view(self, request, uidb36, token, *args, **kwargs):
         context = super(ResetPasswordComfirmView, self).get_context()
-        return password_reset_confirm(request, uidb36, token,
+
+        return password_reset_confirm(request=request, uidb36=uidb36, token=token,
                                       template_name=self.password_reset_confirm_template,
                                       token_generator=self.password_reset_token_generator,
                                       set_password_form=self.password_reset_set_form,
                                       post_reset_redirect=self.get_admin_url('xadmin_password_reset_complete'),
-                                      current_app=self.admin_site.name, extra_context=context)
+                                      success_url=self.get_admin_url('xadmin_password_reset_complete'),
+                                      current_app=self.admin_site.name, extra_context=context).dispatch(request=request,
+                                                                                                        uidb64=uidb36,
+                                                                                                        token=token)
+                 
+
+
+        # return password_reset_confirm(request, uidb36, token,
+        #                               template_name=self.password_reset_confirm_template,
+        #                               token_generator=self.password_reset_token_generator,
+        #                               set_password_form=self.password_reset_set_form,
+        #                               post_reset_redirect=self.get_admin_url('xadmin_password_reset_complete'),
+        #                               current_app=self.admin_site.name, extra_context=context)
 
     def get(self, request, uidb36, token, *args, **kwargs):
         return self.do_view(request, uidb36, token)

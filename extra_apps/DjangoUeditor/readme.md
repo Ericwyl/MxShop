@@ -1,82 +1,95 @@
 本模块帮助在Django应用中集成百度Ueditor HTML编辑器,Django是Python世界最有影响力的web框架。
 Ueditor HTML编辑器是百度开源的在线HTML编辑器,功能非常强大，像表格可以直接拖动调整单元格大小等。
 
-更新历史
+本仓库是fork自：https://github.com/zhangfisher/DjangoUeditor
+主要是因为发现原来的代码是基于python 2的语法，而我自己已经在用python 3.5了，有几个不兼容，所以想修改成python 3的语法
+给用python 3的朋友们抛砖引玉一下
+
+
 ============
-###[2015-1-17]     Ver:1.9.143
+###[2015-10-05]     Version: 1.9.144
 
-* Fix:当models.py中toolbars变量使用unicode字符时，编辑器无法加载的问题
+###* 语法的不同点，我自己试了一下，主要是下面两方面需要改动
+
+##1. import
+从同个文件夹下import，原代码是这样写的：import settings as USettings
+但是在python 3中，应该写成：from . import settings as USettings
+即from module import xxx
+参考：[python 3文档](https://docs.python.org/3/tutorial/modules.html#intra-package-references)
+
+##2. Exception
+原代码这样写：
+
+```python
+    try:
+        ...
+    except Exception, E:
+        print(E.message)
+```
+
+但在python 3中应该用as：
+
+```python
+    try:
+        ...
+    except Exception as E:
+        print(E.message)
+```
+
+参考：[python3文档](https://docs.python.org/3/tutorial/errors.html#handling-exceptions)
+
+##3. dict已经没有has_key属性了
+原代码这样写：
+
+```python
+if self._upload_settings.has_key("filePathFormat"):
+    uSettings['filePathFormat'] = calc_path(self._upload_settings['filePathFormat'], model_inst)
+```
+
+但在python 3中dict没有了has_key属性，所以应该换成get方法来判断：
+
+```python
+if self._upload_settings.get("filePathFormat", None):
+    uSettings['filePathFormat'] = calc_path(self._upload_settings['filePathFormat'], model_inst)
+```
 
 
-###[2014-7-8]     Ver:1.8.143
-
-* Fix:当admin使用inlines生成多实例时widget命名不正确的问题
-
-###[2014-6-27]     Ver:1.7.143
-
-* Fix:解决在admin管理后台的使用问题。
-* 增加year,month,day的上传路径变量
-
-###[2014-6-25]
-
-由于Ueditor从1.4版本开始，API发生了非常大的改动和不兼容，导致DjangoUeditor上一个版本的升级后上传功能不能用等，因此
-本次重新设计了API，后端上传的代码几乎完全重写了。
-
-* 更新到1.5.143，即版本号为1.5，使用了Ueditor 1.4.3版本。
-* 重新设计了UeditorWidget、UeditorField。
-* 新增了自定义Ueditor按钮的功能
-* 注意：本次升级与之前版本不兼容，但是在使用体验上差别不大。
-
-###[2014-6-16]
-* 更新到Ueditor 1.4.3
-
-###[2014-5-15]
-* 增加不过滤 script,style ,不自动转div为p的脚本
-* 修复在django 1.6和python2.7下的警告
-* 使用 json 代替 django 中的 simplejson
-* 用content_type 代替原来的 mime_type
-
-###[2014-5-7]
-* 更新到Ueditor 1.3.6
-* BUGfix:更新UEditor文件夹名字，避免在linux出现找不到静态文件问题
-* 添加一种样式，besttome, 希望大家喜欢
-
-###[2013-2-22]
-* 更新到Ueditor 1.2.5
-* BUGfix:更新UEditor文件夹名字，避免在linux出现找不到静态文件问题
-* BUGfix:现在支持south更新了
-* 针对csrf导致上传图片失败的问题，现在默认上传视图开启了csrf_exempt装饰
 
 ---------------------------------------
+
 
 使用方法
 ============
 ##1、安装方法
 
-	* 方法一：将github整个源码包下载回家，在命令行运行：
-		python setup.py install
-	* 方法二：使用pip工具在命令行运行(推荐)：
-	    pip install DjangoUeditor
-   		
+    * 将github整个源码包下载下来
+        git clone https://github.com/cooljacket/DjangoUeditor
+    * 然后，假设你的python安装目录是PYTHON_ROOT（我的是D:\soft\py3.5），直接复制DjangoUeditor文件夹到PYTHON_ROOT\Lib\site-packages\下就好了，比如我的就是D:\soft\py3.5\Lib\site-packages\
+    * 之所以不使用原来的setup.py来安装，是因为我发现，用它的setup脚本会改动代码成原来的样子，也没去深究为什么，最后发现只需要直接复制过去就好了，而且卸载也很方便，直接删除就好了，没有什么依赖项和设置！
+        
 ##2、在Django中安装DjangoUeditor
      在INSTALL_APPS里面增加DjangoUeditor app，如下：
-		INSTALLED_APPS = (
-			#........
-    		'DjangoUeditor',
-		)
+        INSTALLED_APPS = (
+            #........
+            'DjangoUeditor',
+        )
 ##3、配置urls
-	url(r'^ueditor/',include('DjangoUeditor.urls' )),
+    url(r'^ueditor/',include('DjangoUeditor.urls' )),
 
 ##4、在models中的使用
 
-	from DjangoUeditor.models import UEditorField
-	class Blog(models.Model):
-    	Name=models.CharField(,max_length=100,blank=True)
-    	Content=UEditorField(u'内容	',width=600, height=300, toolbars="full", imagePath="", filePath="", upload_settings={"imageMaxSize":1204000},
+    
+
+```python
+from DjangoUeditor.models import UEditorField
+    class Blog(models.Model):
+        Name=models.CharField(,max_length=100,blank=True)
+        Content=UEditorField(u'内容   ',width=600, height=300, toolbars="full", imagePath="", filePath="", upload_settings={"imageMaxSize":1204000},
                  settings={},command=None,event_handler=myEventHander(),blank=True)
+```
 
 *说明*
-	
+    
  UEditorField继承自models.TextField,因此你可以直接将model里面定义的models.TextField直接改成UEditorField即可。
 定义UEditorField时除了可以直接传入models.TextFieldUEditorField提供的参数外，还可以传入UEditorField提供的额外的参数
 来控制UEditorField的外观、上传路径等。
@@ -185,43 +198,62 @@ UEditorField的参数如下：
         
 
 ##5、在表单中使用非常简单，与常规的form字段没什么差别，如下：
-	class TestUeditorModelForm(forms.ModelForm):
-    	class Meta:
-        	model=Blog
-	***********************************
-	如果不是用ModelForm，可以有两种方法使用：
+    
 
-	1: 使用forms.UEditorField
+```python
+class TestUeditorModelForm(forms.ModelForm):
+        class Meta:
+            model=Blog
+```
+    ***********************************
+    如果不是用ModelForm，可以有两种方法使用：
 
-	from  DjangoUeditor.forms import UEditorField
-	class TestUEditorForm(forms.Form):
-	    Description=UEditorField("描述",initial="abc",width=600,height=800)
-	
-	2: widgets.UEditorWidget
+    1: 使用forms.UEditorField
 
-	from  DjangoUeditor.widgets import UEditorWidget
-	class TestUEditorForm(forms.Form):
-		Content=forms.CharField(label="内容",widget=UEditorWidget(width=800,height=500, imagePath='aa', filePath='bb',toolbars={}))
-	
-	widgets.UEditorWidget和forms.UEditorField的输入参数与上述models.UEditorField一样。
+    
+
+```python
+from  DjangoUeditor.forms import UEditorField
+    class TestUEditorForm(forms.Form):
+        Description=UEditorField("描述",initial="abc",width=600,height=800)
+```
+    
+    2: widgets.UEditorWidget
+
+    
+
+```python
+from  DjangoUeditor.widgets import UEditorWidget
+    class TestUEditorForm(forms.Form):
+        Content=forms.CharField(label="内容",widget=UEditorWidget(width=800,height=500, imagePath='aa', filePath='bb',toolbars={}))
+```
+    
+    widgets.UEditorWidget和forms.UEditorField的输入参数与上述models.UEditorField一样。
 
     说明 关于第一种方法，需要在代码中建立相应的类（比如就在views.py中），并且需要在views.py渲染视图的时候返回到模板（template）中，对于上面的代码，具体使用可能如下（在views.py中）：
 
+```python
     from DjangoUeditor.forms import UEditorField class TestUEditorForm(forms.Form):
         Description=UEditorField("描述",initial="abc",width=600,height=800)
 
     def edit_description_view(request):
         form = TestUEditorForm()
         return render(request,'edit-description.htm',{"form": form})
+```
 
     而在edit-description.htm这个模板（template）里面，只需要在模板相应位置输出form即可：
+```html
     <div class="edit-area"> 
         {{ form }} 
     </div>
+```
 
 ##6、Settings配置
       在Django的Settings可以配置以下参数：
-            UEDITOR_SETTINGS={
+        
+
+```
+    UEDITOR_SETTINGS={
                 "config":{
                    #这里放ueditor.config.js里面的配置项.......
                 },
@@ -229,12 +261,17 @@ UEditorField的参数如下：
                    #这里放php/config.json里面的配置项.......
                 }
             }
+```
+
 ##7、在模板里面：
+
+```html
     <head>
         ......
         {{ form.media }}        #这一句会将所需要的CSS和JS加进来。
         ......
     </head>
+```
     注：运行collectstatic命令，将所依赖的css,js之类的文件复制到{{STATIC_ROOT}}文件夹里面。
 
 ##8、高级运用：
@@ -245,17 +282,25 @@ UEditorField的参数如下：
           UEditorField('内容',imagePath="uploadimg/")
      则图片会被上传到"{{MEDIA_ROOT}}/uploadimg"文件夹，也可以指定为一个函数，如：
 
-      def getImagePath(model_instance=None):
+  
+
+```python
+    def getImagePath(model_instance=None):
           return "abc/"
+```
       UEditorField('内容',imagePath=getImagePath)
       则图片会被上传到"{{MEDIA_ROOT}}/abc"文件夹。
      ****************
      使上传路径(如imagePathFormat)与Model实例字段值相关
      ****************
         在有些情况下，我们可能想让上传的文件路径是由当前Model实例字值组名而成，比如：
-        class Blog(Models.Model):
+    
+
+```python
+    class Blog(Models.Model):
             Name=models.CharField('姓名',max_length=100,blank=True)
             Description=UEditorField('描述',blank=True,imagePath=getUploadPath,toolbars="full")
+```
 
      id  |   Name    |       Description
      ------------------------------------
@@ -264,16 +309,24 @@ UEditorField的参数如下：
 
       我们想让第一条记录上传的图片或附件上传到"{{MEDIA_ROOT}}/Tom"文件夹,第2条记录则上传到"{{MEDIA_ROOT}}/Jack"文件夹。
       该怎么做呢，很简单。
-      def getUploadPath(model_instance=None):
+  
+
+```python
+    def getUploadPath(model_instance=None):
           return "%s/" % model_instance.Name
+```
       在Model里面这样定义：
       Description=UEditorField('描述',blank=True,imagePath=getUploadPath,toolbars="full")
       这上面model_instance就是当前model的实例对象。
       还需要这样定义表单对象：
-      from  DjangoUeditor.forms import UEditorModelForm
+  n
+
+```python
+    from  DjangoUeditor.forms import UEditorModelForm
       class UEditorTestModelForm(UEditorModelForm):
             class Meta:
                 model=Blog
+```
       特别注意：
          **表单对象必须是继承自UEditorModelForm，否则您会发现model_instance总会是None。
          **同时在Admin管理界面中，此特性无效，model_instance总会是None。
@@ -288,3 +341,5 @@ UEditorField的参数如下：
     **别忘记了运行collectstatic命令，该命令可以将ueditor的所有文件复制到{{STATIC_ROOT}}文件夹里面
     **Django默认开启了CSRF中间件，因此如果你的表单没有加入{% csrf_token %}，那么当您上传文件和图片时会失败
    
+
+

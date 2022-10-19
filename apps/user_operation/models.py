@@ -2,6 +2,7 @@ from django.db import models
 from datetime import datetime
 from goods.models import Goods
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
@@ -34,7 +35,7 @@ class UserAddress(models.Model):
     address = models.CharField("地址", max_length=100, default="")
     signer_name = models.CharField("签收人", max_length=11, default="")
     signer_mobile = models.CharField("电话", max_length=11, default="")
-    add_time = models.CharField("添加时间", default=datetime.now)
+    add_time = models.DateTimeField("添加时间", default=datetime.now)
 
     class Meta:
         verbose_name = "收货地址"
@@ -58,7 +59,7 @@ class UserLeavingMessage(models.Model):
     message_type = models.IntegerField(default=1, choices=MESSAGE_CHOICES, verbose_name="留言类型", help_text=u"留言类型:"
                                                                                                           u"1(留言),2(投诉), 3(询问), 4(售后), 5(求购)")
     subject = models.CharField("主题", max_length=100, default="")
-    message = models.TextField("留言内容", help_text="留言内容")
+    message = models.TextField("留言内容", default="", help_text="留言内容")
     file = models.FileField(upload_to="message/images/", verbose_name="上传的文件",help_text="上传的文件")
     add_time = models.DateTimeField("添加时间", default=datetime.now)
 

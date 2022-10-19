@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.template.loader import get_template
 from django.template.context import Context
-from django.utils import six
+# from django.utils import six
 from django.utils.safestring import mark_safe
 from django.utils.html import escape, format_html
 from django.utils.text import Truncator
@@ -15,6 +15,7 @@ from django.core.cache import cache, caches
 from xadmin.views.list import EMPTY_CHANGELIST_VALUE
 from xadmin.util import is_related_field, is_related_field2
 import datetime
+import six
 
 FILTER_PREFIX = '_p_'
 SEARCH_VAR = '_q_'

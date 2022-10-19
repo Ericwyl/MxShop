@@ -3,7 +3,7 @@ from itertools import chain
 
 from django.urls.base import reverse
 from django.db.models.options import PROXY_PARENTS
-from django.utils import six
+# from django.utils import six
 from django.utils.encoding import force_text
 from django.utils.encoding import smart_str
 from django.utils.safestring import mark_safe
@@ -15,7 +15,7 @@ from django.db import models
 from xadmin.sites import site
 from xadmin.views import BaseAdminPlugin, ListAdminView, CreateAdminView, UpdateAdminView, DeleteAdminView
 from xadmin.util import is_related_field2
-
+import six
 RELATE_PREFIX = '_rel_'
 
 

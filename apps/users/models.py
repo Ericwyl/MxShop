@@ -30,7 +30,7 @@ class UserProfile(AbstractUser):
         return self.username
 
 
-class verifyCode(models.Model):
+class VerifyCode(models.Model):
     '''
     验证码
     '''

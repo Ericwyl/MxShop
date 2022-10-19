@@ -1,4 +1,4 @@
-from django.db.models import FieldDoesNotExist, Avg, Max, Min, Count, Sum
+from django.db.models import  Avg, Max, Min, Count, Sum
 from django.utils.translation import ugettext as _
 from django.forms import Media
 
@@ -7,6 +7,10 @@ from xadmin.views import BaseAdminPlugin, ListAdminView
 
 from xadmin.views.list import ResultRow, ResultItem
 from xadmin.util import display_for_field
+try:
+    from django.db.models.fields import FieldDoesNotExist
+except:
+    from django.core.exceptions import FieldDoesNotExist
 
 AGGREGATE_METHODS = {
     'min': Min, 'max': Max, 'avg': Avg, 'sum': Sum, 'count': Count
