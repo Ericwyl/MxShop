@@ -19,6 +19,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 
 #设置media的保存路径
+MEDIA_URL="/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 #重载系统用户,让UserProfile生效
@@ -143,7 +144,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

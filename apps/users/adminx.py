@@ -1,6 +1,4 @@
 import xadmin
-
-
 from xadmin import views
 from .models import VerifyCode
 
@@ -16,6 +14,16 @@ class GlobalSettings(object):
     site_footer = "我是页脚"
     #菜单收缩
     menu_style = "accordion"
+
+
+class VerifyCodeAdmin(object):
+    list_display = {'code', 'mobile', 'add_time'}
+
+
+xadmin.site.register(VerifyCode, VerifyCodeAdmin)
+xadmin.site.register(views.BaseAdminView, BaseSetting)
+xadmin.site.register(views.CommAdminView, GlobalSettings)
+
 
 
 
