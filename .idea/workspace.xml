@@ -14,6 +14,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -28,6 +29,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -167,7 +169,7 @@
       <option name="presentableId" value="Default" />
       <updated>1665805282338</updated>
       <workItem from="1665805285484" duration="19141000" />
-      <workItem from="1665967646628" duration="55598000" />
+      <workItem from="1665967646628" duration="63897000" />
     </task>
     <servers />
   </component>
