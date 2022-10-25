@@ -85,10 +85,11 @@ class GoodsListViewSet(CacheResponseMixin, mixins.ListModelMixin, mixins.Retriev
 
 
 class CategoryViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
-    '''list:商品分类列表数据
-    mixins.py模块解析：
-    mixins.ListModelMixin:显示queryset是数据
-    mixins.RetrieveModelMixin:显示一个model对象
+    '''
+    list:
+        商品分类列表数据
+        mixins.ListModelMixin:显示queryset是数据
+        mixins.RetrieveModelMixin:显示一个model对象
     viewsets:
     '''
     queryset = GoodsCategory.objects.filter(category_type=1)
