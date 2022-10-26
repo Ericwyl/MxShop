@@ -90,6 +90,7 @@ class CategoryViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets
         商品分类列表数据
         mixins.ListModelMixin:显示queryset是数据
         mixins.RetrieveModelMixin:显示一个model对象
+        详细可查看mixins源码
     viewsets:
     '''
     queryset = GoodsCategory.objects.filter(category_type=1)

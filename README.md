@@ -51,16 +51,23 @@ GenericView中的方法:
     UpdateAPIView（修改对象）
 
 mixins总共有五种：
-　　CreateModelMixin
-　　ListModelMixin
-　　UpdateModelMixin
-　　RetrieveModelMixin
-　　DestoryModelMixin
+　　CreateModelMixin：create()============视图类：post() 创建对象
+　　ListModelMixin  :list()============视图类：get()  列出素有对象
+　　UpdateModelMixin  :update()=========视图类:put()   修改 
+　　RetrieveModelMixin  :retreve()=======视图类：get()  查询详情对象
+　　DestoryModelMixin   :destroy()========视图类：delete()  删除
 
 generics起到了将mixins类里面的方法和http请求结合起来的作用
 class ListAPIView(mixins.ListModelMixin,GenericAPIView):
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
+
+参考链接:https://blog.csdn.net/qq_40132294/article/details/125773457
+三、drf过滤，使用drf的filter
+
+1.设置django_filters,新建一个filter.py
+2.定义要过滤的类为:Goods，要过滤的字段为：shop_price
+
 
 
 
