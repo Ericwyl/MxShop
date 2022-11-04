@@ -17,7 +17,7 @@ class UserProfile(AbstractUser):
     name = models.CharField("姓名", max_length=30, null=True, blank=True)
     birthday = models.DateField("出生年月", null=True, blank=True)
     gender = models.CharField("性别", max_length=6, choices=GENDER_CHOICES, default="female")
-    mobile = models.CharField("电话", max_length=11)
+    mobile = models.CharField("电话", max_length=11, null=True, blank=True) #设置允许为空，目前前端只有一个值，是username，所以mobile可以为空
     #null = True,表示该字段可为空，blank=True表示表单填写该字段时可为空
     email = models.EmailField("邮箱", max_length=100, null=True, blank=True)
 

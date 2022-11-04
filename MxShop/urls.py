@@ -16,6 +16,8 @@ from rest_framework_jwt.views import obtain_jwt_token
 # from user_operation.views import UserFavViewset,LeavingMessageViewset,AddressViewset
 # from trade.views import ShoppingCartViewset,OrderViewset,AlipayView
 from django.views.generic import TemplateView
+from users.views import SmsCodeViewset, UserViewset
+
 
 router = DefaultRouter()
 
@@ -24,9 +26,9 @@ router.register(r'goods', GoodsListViewSet,base_name='goods')
 # 配置Category的url
 router.register(r'categorys', CategoryViewSet, base_name="categorys")
 # 配置codes的url
-# router.register(r'code', SmsCodeViewset, base_name="code")
+router.register(r'code', SmsCodeViewset, base_name="code")
 #配置用户的url
-# router.register(r'users', UserViewset, base_name="users")
+router.register(r'users', UserViewset, base_name="users")
 # 配置用户收藏的url
 # router.register(r'userfavs', UserFavViewset, base_name="userfavs")
 # 配置用户留言的url
@@ -56,7 +58,11 @@ urlpatterns = [
     #商品列表页
     re_path('^', include(router.urls)),
     # token
-    path('api-token-auth/', views.obtain_auth_token),
+    # path('api-token-auth/', views.obtain_auth_token),
+
+    #jwt的token认证接口
+    path('jwt-auth/', obtain_jwt_token),
+
     # jwt的认证接口
     path('login/', obtain_jwt_token ),
     # 首页

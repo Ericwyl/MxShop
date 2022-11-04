@@ -67,6 +67,16 @@ class ListAPIView(mixins.ListModelMixin,GenericAPIView):
 
 1.设置django_filters,新建一个filter.py
 2.定义要过滤的类为:Goods，要过滤的字段为：shop_price
+略...
+
+四、用户登录与手机注册
+1.配置token，迁移数据库，便于生成token表
+在使用rest_framework_jwt进行登陆验证获取token的时候会报
+{"non_field_errors":["Unable to log in with provided credentials."]}%这个错误，原因是没有创建这个用户
+使用 python3 manage.py createsuperuser命名创建用户，用户名密码（weiyinlong    wyl123456）
+curl -X POST -d "username=admin&password=password123" http://localhost:8000/api-token-auth/
+2.使用drf的token缺点太明显(不适用于分布式系统、token没有过期时间),改为使用jwt进行用户认证
+3.配置云片发送短信
 
 
 

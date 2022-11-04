@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'coreschema',
     'rest_framework.authtoken',
     'social_django',
+
 ]
 
 
@@ -173,10 +174,33 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':(
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
+        #此处使用json web token完成用户认证,故把上面的drf  token注释掉了，drf token缺点：保存在数据库中，如果是分布式系统测=则比较麻烦，token永久有效
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
     #分页
     # 'DEFAULT_PAGINATION_CLASS':'rest_framework.authentication.BasicAuthentication',
     #每页显示的个数
     # 'PAGE_SIZE': 10,
 }
+
+#自定义用户认证,jwt接口默认采用的是用户名和密码登录验证，如果使用手机登录的话，就会验证失败，所有我们需要自定义一个用户验证
+AUTHENTICATION_BACKENDS = (
+    'users.views.CustomBackend',
+
+)
+
+#jwt的有效时间设置
+import datetime
+
+JWT_AUTH = {
+    "JWT_EXPIRATION_DELTA":datetime.timedelta(days=7),#也可以设置成seconds=20
+    'JWT_AUTH_HEADER_PREFIX': "JWT",    #JWT与前端保持一致，比如‘token’这里设置成JWT
+
+}
+
+#手机号验证正则
+REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}&"
+#云片apikey
+APIKEY = "dcde8d1a2d5082e35a177a3c7e32ef88"
 
