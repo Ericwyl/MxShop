@@ -35,6 +35,15 @@ class SmsSerializer(serializers.Serializer):
         return mobile
 
 
+class UserDetailSerializer(serializers.ModelSerializer):
+    '''
+    用户详情
+    '''
+    class Meta:
+        model = User
+        fields = ("name", "gender", "birthday", "email", "mobile")
+
+
 class UserRegSerializer(serializers.ModelSerializer):
     '''用户注册'''
     #UserProfile中没有code字段，这里需要自定义一个code序列化字段
@@ -50,6 +59,17 @@ class UserRegSerializer(serializers.ModelSerializer):
     #验证用户名是否存在
     username = serializers.CharField(label="用户名", help_text="用户名", required=True, allow_blank=False,
                                      validators=[UniqueValidator(queryset=User.objects.all(), message="用户已经存在")])
+    #输入密码不能显示明文
+    password = serializers.CharField(
+        style={"input_type":"password"}, label=True, write_only=True
+    )
+    #密码加密保存
+    def create(self, validated_data):
+        user = super(UserRegSerializer, self).create(validated_data=validated_data)
+        user.set_password(validated_data["password"])
+        user.save()
+        return user
+
 
     #验证code
     def validate_code(self, code):

@@ -52,7 +52,7 @@ GenericView中的方法:
 
 mixins总共有五种：
 　　CreateModelMixin：create()============视图类：post() 创建对象
-　　ListModelMixin  :list()============视图类：get()  列出素有对象
+　　ListModelMixin  :list()============视图类：get()  列出s所有对象
 　　UpdateModelMixin  :update()=========视图类:put()   修改 
 　　RetrieveModelMixin  :retreve()=======视图类：get()  查询详情对象
 　　DestoryModelMixin   :destroy()========视图类：delete()  删除
@@ -77,7 +77,9 @@ class ListAPIView(mixins.ListModelMixin,GenericAPIView):
 curl -X POST -d "username=admin&password=password123" http://localhost:8000/api-token-auth/
 2.使用drf的token缺点太明显(不适用于分布式系统、token没有过期时间),改为使用jwt进行用户认证
 3.配置云片发送短信
-
+4.用户注册
+5.django信号量实现用户密码修改
+5.实现用户收藏
 
 
 

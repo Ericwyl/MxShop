@@ -1,1 +1,2 @@
+djangorestframework-jwt
 django-filter

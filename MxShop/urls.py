@@ -16,6 +16,8 @@ from rest_framework_jwt.views import obtain_jwt_token
 # from user_operation.views import UserFavViewset,LeavingMessageViewset,AddressViewset
 # from trade.views import ShoppingCartViewset,OrderViewset,AlipayView
 from django.views.generic import TemplateView
+
+from user_operation.views import UserFavViewset
 from users.views import SmsCodeViewset, UserViewset
 
 
@@ -30,7 +32,7 @@ router.register(r'code', SmsCodeViewset, base_name="code")
 #配置用户的url
 router.register(r'users', UserViewset, base_name="users")
 # 配置用户收藏的url
-# router.register(r'userfavs', UserFavViewset, base_name="userfavs")
+router.register(r'userfavs', UserFavViewset, base_name="userfavs")
 # 配置用户留言的url
 # router.register(r'messages', LeavingMessageViewset, base_name="messages")
 # 配置收货地址

@@ -48,12 +48,3 @@ class VerifyCode(models.Model):
 
 
 
-
-
-
-
-
-
-
-
-
